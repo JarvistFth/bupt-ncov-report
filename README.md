@@ -1,3 +1,7 @@
+# FORK FROM ipid/bupt-ncov-report [ipid/bupt-ncov-report](https://github.com/ipid/bupt-ncov-report)
+感谢大佬的肩膀，让我站得更高看得更远！
+
+***
 <h2 align="center">BUPT 疫情防控通 自动上报脚本</h2>
 <p align="center">
     <a href="https://github.com/ipid/bupt-ncov-report/actions">
