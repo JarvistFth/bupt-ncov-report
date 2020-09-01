@@ -125,12 +125,12 @@ class ThreeCheckProgram:
                      'sfgyclq': '0', 'sfyzz': '0', 'qtqk': '', 'askforleave': self.askforleave}
 
         report_api_res = self._sess.post(
-            REPORT_API,
+            DAILYPOST_API,
             data=post_data,
             headers={
                 **self.COMMON_HEADERS,
                 **self.COMMON_POST_HEADERS,
-                'Referer': HEADERS.REFERER_DAILY_API,
+                'Referer': HEADERS.REFERER_DAYLY_API,
             },
         )
         if report_api_res.status_code != 200:
