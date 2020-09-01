@@ -12,6 +12,7 @@ from ..constant import *
 from ..notifier import *
 from ..predef import *
 from ..program_utils import *
+
 logger = logging.getLogger(__name__)
 
 
@@ -28,8 +29,6 @@ class ThreeCheckProgram:
         'X-Requested-With': HEADERS.REQUEST_WITH_XHR,
         'Content-Type': HEADERS.CONTENT_TYPE_UTF8,
     }
-
-
 
     def __init__(
             self, *,
@@ -59,7 +58,7 @@ class ThreeCheckProgram:
         self._exit_status: int = 0
 
     def get_exit_status(self) -> int:
-            return self._exit_status
+        return self._exit_status
 
     @staticmethod
     def _check_config(config: Mapping[str, Optional[ConfigValue]]) -> None:
@@ -122,7 +121,7 @@ class ThreeCheckProgram:
         #              'geo_api_info': '{"type":"complete","info":"SUCCESS","status":1,"XDa":"jsonp_388833_","position":{"Q":39.96453,"R":116.35680000000002,"lng":116.3568,"lat":39.96453},"message":"Get ipLocation success.Get address success.","location_type":"ip","accuracy":null,"isConverted":true,"addressComponent":{"citycode":"010","adcode":"110108","businessAreas":[{"name":"北下关","id":"110108","location":{"Q":39.955976,"R":116.33873,"lng":116.33873,"lat":39.955976}},{"name":"小西天","id":"110108","location":{"Q":39.957147,"R":116.364058,"lng":116.364058,"lat":39.957147}},{"name":"西直门","id":"110102","location":{"Q":39.942856,"R":116.34666099999998,"lng":116.346661,"lat":39.942856}}],"neighborhoodType":"科教文化服务;学校;高等院校","neighborhood":"北京邮电大学","building":"","buildingType":"","street":"师大北路","streetNumber":"5号","country":"中国","province":"北京市","city":"","district":"海淀区","township":"北太平庄街道"},"formattedAddress":"北京市海淀区北太平庄街道北京邮电大学","roads":[],"crosses":[],"pois":[]}',
         #              'sfgyclq': '0', 'sfyzz': '0', 'qtqk': '', 'askforleave': self.askforleave}
 
-        getinfo_res = self._sess.get(DAYLYGET_API,headers={
+        getinfo_res = self._sess.get(DAYLYGET_API, headers={
             **self.COMMON_HEADERS,
             **self.COMMON_POST_HEADERS,
             'Referer': HEADERS.REFERER_DAYLY_API
@@ -133,6 +132,7 @@ class ThreeCheckProgram:
 
         content = getinfo_res.text
         post_data = json.loads(content).get('d').get('info')
+        logger.info('postdata: ' + json.dumps(post_data,ensure_ascii=False))
 
         report_api_res = self._sess.post(
             DAILYPOST_API,
