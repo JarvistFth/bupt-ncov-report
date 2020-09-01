@@ -164,7 +164,10 @@ GCP 支持通过 `requirements.txt` 自动下载依赖项，因此将所有文�
 ```bash
 export BUPT_SSO_USER=2020114514
 export BUPT_SSO_PASS=114514
+//填报疫情防控通
 python3 main.py
+//填报晨午晚检
+python3 main2.py
 ```
 
 如果您需要使用**疑似病患数据停止上报**（STOP_WHEN_SICK）功能，则只需要将该环境变量设为任意非空字符串（如：1、true）即可。
