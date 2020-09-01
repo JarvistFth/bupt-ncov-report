@@ -2,6 +2,7 @@
 class HEADERS:
     REFERER_LOGIN_API = 'https://app.bupt.edu.cn/uc/wap/login'
     REFERER_POST_API = 'https://app.bupt.edu.cn/ncov/wap/default/index'
+    REFERER_DAILY_API = 'https://app.bupt.edu.cn/site/ncov/xisudailyup'
     ORIGIN_BUPTAPP = 'https://app.bupt.edu.cn'
 
     UA = ('Mozilla/5.0 (iPhone; CPU iPhone OS 13_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) '
