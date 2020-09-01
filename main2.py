@@ -2,7 +2,7 @@
 from bupt_ncov_report.program.threeCheck import ThreeCheckProgram
 
 __all__ = (
-    'main2',
+    'main',
 )
 
 from typing import Dict, List, Optional, cast

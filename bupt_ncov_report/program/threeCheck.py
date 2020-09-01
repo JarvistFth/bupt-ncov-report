@@ -29,9 +29,7 @@ class ThreeCheckProgram:
         'Content-Type': HEADERS.CONTENT_TYPE_UTF8,
     }
 
-    COMMON_DAYLY_HEADERS = {
 
-    }
 
     def __init__(
             self, *,
@@ -39,12 +37,12 @@ class ThreeCheckProgram:
             program_utils: ProgramUtils,
             session: requests.Session,
             notifiers: List[INotifier],
-            askforleave=0,
-            sfzx=1
+            # askforleave=0,
+            # sfzx=1
 
     ):
-        self.askforleave = askforleave
-        self.sfzx = sfzx
+        # self.askforleave = askforleave
+        # self.sfzx = sfzx
         self._prog_util = program_utils
         self._sess = session
         self._notifiers = notifiers
@@ -119,10 +117,22 @@ class ThreeCheckProgram:
                          f'url: {login_res.url}')
             raise RuntimeError('登录 API 返回的 HTTP 状态码不是 200。')
 
-        post_data = {'sfzx': self.sfzx, 'tw': '1', 'area': '北京市 海淀区', 'city': '北京市', 'province': '北京市',
-                     'address': '北京市海淀区北太平庄街道北京邮电大学',
-                     'geo_api_info': '{"type":"complete","info":"SUCCESS","status":1,"XDa":"jsonp_388833_","position":{"Q":39.96453,"R":116.35680000000002,"lng":116.3568,"lat":39.96453},"message":"Get ipLocation success.Get address success.","location_type":"ip","accuracy":null,"isConverted":true,"addressComponent":{"citycode":"010","adcode":"110108","businessAreas":[{"name":"北下关","id":"110108","location":{"Q":39.955976,"R":116.33873,"lng":116.33873,"lat":39.955976}},{"name":"小西天","id":"110108","location":{"Q":39.957147,"R":116.364058,"lng":116.364058,"lat":39.957147}},{"name":"西直门","id":"110102","location":{"Q":39.942856,"R":116.34666099999998,"lng":116.346661,"lat":39.942856}}],"neighborhoodType":"科教文化服务;学校;高等院校","neighborhood":"北京邮电大学","building":"","buildingType":"","street":"师大北路","streetNumber":"5号","country":"中国","province":"北京市","city":"","district":"海淀区","township":"北太平庄街道"},"formattedAddress":"北京市海淀区北太平庄街道北京邮电大学","roads":[],"crosses":[],"pois":[]}',
-                     'sfgyclq': '0', 'sfyzz': '0', 'qtqk': '', 'askforleave': self.askforleave}
+        # post_data = {'sfzx': self.sfzx, 'tw': '1', 'area': '北京市 海淀区', 'city': '北京市', 'province': '北京市',
+        #              'address': '北京市海淀区北太平庄街道北京邮电大学',
+        #              'geo_api_info': '{"type":"complete","info":"SUCCESS","status":1,"XDa":"jsonp_388833_","position":{"Q":39.96453,"R":116.35680000000002,"lng":116.3568,"lat":39.96453},"message":"Get ipLocation success.Get address success.","location_type":"ip","accuracy":null,"isConverted":true,"addressComponent":{"citycode":"010","adcode":"110108","businessAreas":[{"name":"北下关","id":"110108","location":{"Q":39.955976,"R":116.33873,"lng":116.33873,"lat":39.955976}},{"name":"小西天","id":"110108","location":{"Q":39.957147,"R":116.364058,"lng":116.364058,"lat":39.957147}},{"name":"西直门","id":"110102","location":{"Q":39.942856,"R":116.34666099999998,"lng":116.346661,"lat":39.942856}}],"neighborhoodType":"科教文化服务;学校;高等院校","neighborhood":"北京邮电大学","building":"","buildingType":"","street":"师大北路","streetNumber":"5号","country":"中国","province":"北京市","city":"","district":"海淀区","township":"北太平庄街道"},"formattedAddress":"北京市海淀区北太平庄街道北京邮电大学","roads":[],"crosses":[],"pois":[]}',
+        #              'sfgyclq': '0', 'sfyzz': '0', 'qtqk': '', 'askforleave': self.askforleave}
+
+        getinfo_res = self._sess.get(DAYLYGET_API,headers={
+            **self.COMMON_HEADERS,
+            **self.COMMON_POST_HEADERS,
+            'Referer': HEADERS.REFERER_DAYLY_API
+        })
+
+        if getinfo_res.status_code != 200:
+            raise RuntimeError(f'获取晨午晚检旧信息 返回的 HTTP 状态码（{getinfo_res.status_code}）不是 200。')
+
+        content = getinfo_res.text
+        post_data = json.loads(content).get('d').get('info')
 
         report_api_res = self._sess.post(
             DAILYPOST_API,
